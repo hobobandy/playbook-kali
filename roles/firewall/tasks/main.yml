@@ -8,7 +8,7 @@
     rule: allow
     name: OpenSSH
 
-- name: Allow UDP ports for AIS
+- name: Allow UDP ports for AIS containers
   ufw:
     rule: allow
     port: "{{ item.port }}"
@@ -22,6 +22,11 @@
   ufw:
     rule: allow
     port: 2501
+
+- name: Allow Dockge Web UI
+  ufw:
+    rule: allow
+    port: 5001
 
 - name: Enable UFW
   ufw:
