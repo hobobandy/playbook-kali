@@ -59,7 +59,7 @@ log "Updating package cache"
 apt-get update -qq
 
 # Install required packages if missing
-packages=(ansible python3-apt)
+packages=(ansible python3-debian)
 for pkg in "${packages[@]}"; do
   if ! dpkg -s "$pkg" &>/dev/null; then
     log "Installing package: $pkg"

@@ -31,6 +31,14 @@
     group: kali
     mode: '0755'
 
+- name: Create Kismet user directory
+  file:
+    path: /home/kali/.kismet
+    state: directory
+    owner: kali
+    group: kali
+    mode: '0755'
+
 - name: Deploy kismet_site.conf
   copy:
     dest: /etc/kismet/kismet_site.conf
