@@ -1,0 +1,42 @@
+- name: Create directories for Dockge
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /opt/stacks
+    - /opt/dockge
+
+- name: Download Dockge compose.yaml
+  get_url:
+    url: https://raw.githubusercontent.com/louislam/dockge/master/compose.yaml
+    dest: /opt/dockge/compose.yaml
+
+- name: Deploy systemd unit for Dockge
+  copy:
+    dest: /etc/systemd/system/dockge.service
+    content: |
+      [Unit]
+      Description=Dockge Compose Service
+      Requires=network-online.target
+      After=network-online.target
+
+      [Service]
+      Type=simple
+      WorkingDirectory=/opt/dockge
+      ExecStart=/usr/bin/docker-compose up -d
+      ExecStop=/usr/bin/docker-compose down
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd to pick up Dockge service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start Dockge service
+  systemd:
+    name: dockge.service
+    enabled: yes
+    state: started

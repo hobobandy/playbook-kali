@@ -1,0 +1,28 @@
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+
+- name: Allow OpenSSH
+  ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Allow UDP ports for AIS
+  ufw:
+    rule: allow
+    port: "{{ item.port }}"
+    proto: udp
+  loop:
+    - { port: 6969 }
+    - { port: 2233 }
+    - { port: 2222 }
+
+- name: Allow Kismet Web UI
+  ufw:
+    rule: allow
+    port: 2501
+
+- name: Enable UFW
+  ufw:
+    state: enabled

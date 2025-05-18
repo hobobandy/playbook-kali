@@ -1,0 +1,10 @@
+timezone_name: UTC
+apt_cache_valid_time: 3600
+common_packages:
+  - git
+  - curl
+  - wget
+  - unzip
+  - vim
+  - net-tools
+  - build-essential

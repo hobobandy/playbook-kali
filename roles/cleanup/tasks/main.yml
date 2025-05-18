@@ -1,0 +1,14 @@
+- name: Autoremove unused packages
+  apt:
+    autoremove: yes
+
+- name: Autoclean APT cache
+  apt:
+    autoclean: yes
+
+- name: Purge old kernels
+  shell: |
+    dpkg -l 'linux-image-*' \
+      | awk '/^ii/ { print $2 }' \
+      | grep -v "$(uname -r)" \
+      | xargs --no-run-if-empty apt -y purge

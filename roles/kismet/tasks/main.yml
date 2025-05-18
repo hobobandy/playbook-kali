@@ -1,0 +1,86 @@
+- name: Add Kismet APT repository
+  deb822_repository:
+    name: kismet
+    types: deb
+    uris: https://www.kismetwireless.net/repos/apt/git/kali
+    suites: kali
+    components: main
+    architectures: amd64
+    signed_by: https://www.kismetwireless.net/repos/kismet-release.gpg.key
+
+- name: Update APT cache for Kismet
+  apt:
+    update_cache: yes
+
+- name: Install Kismet git package for Kali Linux
+  apt:
+    name: kismet
+    state: present
+
+- name: Ensure 'kali' is in the kismet group
+  user:
+    name: kali
+    groups: kismet
+    append: yes
+
+- name: Create Kismet log directory
+  file:
+    path: /home/kali/kismet
+    state: directory
+    owner: kali
+    group: kali
+    mode: '0755'
+
+- name: Deploy kismet_site.conf
+  copy:
+    dest: /etc/kismet/kismet_site.conf
+    content: |
+      log_types=kismet,pcapng,pcapppi
+      log_prefix=/home/kali/kismet
+      gps=gpsd:host=localhost,port=2947
+    owner: root
+    group: root
+    mode: '0644'
+
+# Change the username/password for the web interface here
+- name: Deploy kismet_httpd.conf
+  copy:
+    dest: /home/kali/.kismet/kismet_httpd.conf
+    content: |
+      httpd_password=kali
+      httpd_username=kali
+    owner: kali
+    group: kismet
+    mode: '0644'
+
+# The user/group typically gets overwritten back to root/root on package upgrades, this is a lazy workaround
+- name: Deploy systemd unit for Kismet
+  copy:
+    dest: /etc/systemd/system/kismet-kali.service
+    content: |
+      [Unit]
+      Description=Kismet SUID
+      ConditionPathExists=/usr/bin/kismet
+      After=network.target auditd.service
+
+      [Service]
+      User=kali
+      Group=kismet
+      Type=simple
+      ExecStart=/usr/bin/kismet --no-ncurses-wrapper
+      KillMode=process
+      TimeoutSec=0
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd to pick up Kismet service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start Kismet service
+  systemd:
+    name: kismet-kali.service
+    enabled: yes
+    state: started

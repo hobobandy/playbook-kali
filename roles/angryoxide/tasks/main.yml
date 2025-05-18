@@ -1,0 +1,35 @@
+- name: Create AngryOxide directory
+  file:
+    path: /opt/angryoxide
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Download AngryOxide archive
+  get_url:
+    url: https://github.com/Ragnt/AngryOxide/releases/download/v0.8.32/angryoxide-linux-x86_64.tar.gz
+    dest: /tmp/angryoxide-linux-x86_64.tar.gz
+    mode: '0644'
+
+- name: Extract AngryOxide to /opt/angryoxide
+  unarchive:
+    src: /tmp/angryoxide-linux-x86_64.tar.gz
+    dest: /opt/angryoxide
+    remote_src: yes
+
+- name: Make install.sh executable
+  file:
+    path: /opt/angryoxide/install.sh
+    mode: '0755'
+
+- name: Run AngryOxide installer
+  command: ./install.sh
+  args:
+    chdir: /opt/angryoxide
+  become: yes
+
+- name: Clean up AngryOxide archive
+  file:
+    path: /tmp/angryoxide-linux-x86_64.tar.gz
+    state: absent

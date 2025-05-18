@@ -1,0 +1,17 @@
+- name: Set timezone to UTC
+  timezone:
+    name: "{{ timezone_name | default('UTC') }}"
+
+- name: Update APT package cache
+  apt:
+    update_cache: yes
+    cache_valid_time: "{{ apt_cache_valid_time | default(3600) }}"
+
+- name: Upgrade all packages
+  apt:
+    upgrade: dist
+
+- name: Install common packages
+  apt:
+    name: "{{ common_packages }}"
+    state: present
