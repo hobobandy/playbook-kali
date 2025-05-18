@@ -2,11 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Bootstrap script to secure files, set user password, install Ansible and deps, run playbook, then reboot
+# Bootstrap script to secure files, install Ansible and deps, run playbook, then reboot
 
-USERNAME="kali"
 VAULT_FILE=".vault_pass.txt"
-HASH_FILE="kali-newpassword.hash"
+SECRETS_FILE="secrets.yml"
 PLAYBOOK="playbook.yml"
 LOG_FILE="bootstrap.log"
 
@@ -24,29 +23,13 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 # Secure sensitive files
-for file in "$VAULT_FILE" "$HASH_FILE" "$PLAYBOOK"; do
+for file in "$VAULT_FILE" "$SECRETS_FILE" "$PLAYBOOK"; do
   if [[ -e "$file" ]]; then
     chmod 600 "$file"
   else
     log "[!] Missing expected file: $file"
   fi
 done
-
-# Validate password hash file
-if [[ ! -f "$HASH_FILE" ]]; then
-  log "[!] Password hash file not found: $HASH_FILE"
-  exit 1
-fi
-HASHED_PASSWORD=$(<"$HASH_FILE")
-
-# Set local user password
-if id "$USERNAME" &>/dev/null; then
-  log "Setting password for user '$USERNAME'"
-  usermod --password "$HASHED_PASSWORD" "$USERNAME"
-else
-  log "[!] User '$USERNAME' does not exist"
-  exit 1
-fi
 
 # Detect package manager
 if ! command -v apt-get &>/dev/null; then
