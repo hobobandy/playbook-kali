@@ -9,6 +9,8 @@
   --name 'ansible_become_pass' >> secrets.yml
   ```
 
+* If you want to use a different password than `kali`, just make sure the file `.vault_pass.txt` contains the right password.
+
 ## Running the playbook
 
 ```
