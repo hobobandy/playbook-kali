@@ -12,3 +12,4 @@
     - { role: dockge,        tags: [dockge] }
     - { role: kismet,        tags: [kismet] }
     - { role: angryoxide,    tags: [angryoxide] }
+    - { role: aistocot,      tags: [aistocot] }
