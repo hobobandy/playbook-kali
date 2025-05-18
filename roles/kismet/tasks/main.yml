@@ -50,6 +50,11 @@
     group: root
     mode: '0644'
 
+- name: Allow Kismet Web UI through UFW
+  ufw:
+    rule: allow
+    port: 2501
+
 # Change the username/password for the web interface here
 - name: Deploy kismet_httpd.conf
   copy:

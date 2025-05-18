@@ -31,6 +31,11 @@
       [Install]
       WantedBy=multi-user.target
 
+- name: Allow Dockge Web UI through UFW
+  ufw:
+    rule: allow
+    port: 5001
+
 - name: Reload systemd to pick up Dockge service
   systemd:
     daemon_reload: yes
