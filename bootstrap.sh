@@ -28,6 +28,7 @@ for file in "$VAULT_FILE" "$SECRETS_FILE" "$PLAYBOOK"; do
     chmod 600 "$file"
   else
     log "[!] Missing expected file: $file"
+    exit 1
   fi
 done
 
