@@ -9,6 +9,7 @@
     - { role: firewall,      tags: [firewall] }
     - { role: docker,        tags: [docker] }
     - { role: dockge,        tags: [dockge] }
+    - { role: gpsd,          tags: [gpsd] }
     - { role: kismet,        tags: [kismet] }
     - { role: angryoxide,    tags: [angryoxide] }
     - { role: aistocot,      tags: [aistocot] }

@@ -4,8 +4,6 @@ IFS=$'\n\t'
 
 # Bootstrap script to secure files, install Ansible and deps, run playbook, then reboot
 
-VAULT_FILE=".vault_pass.txt"
-SECRETS_FILE="secrets.yml"
 PLAYBOOK="playbook.yml"
 LOG_FILE="bootstrap.log"
 
@@ -22,8 +20,8 @@ if [[ "$EUID" -ne 0 ]]; then
   exit 1
 fi
 
-# Secure sensitive files
-for file in "$VAULT_FILE" "$SECRETS_FILE" "$PLAYBOOK"; do
+# Ensure playbook file exists
+for file in "$PLAYBOOK"; do
   if [[ -e "$file" ]]; then
     chmod 600 "$file"
   else
@@ -39,7 +37,7 @@ if ! command -v apt-get &>/dev/null; then
 fi
 
 # Update package cache once
-log "Updating package cache"
+log "Updating APT package cache"
 apt-get update -qq
 
 # Install required packages if missing
@@ -53,7 +51,7 @@ done
 
 # Run Ansible playbook
 log "Running Ansible playbook: $PLAYBOOK"
-ansible-playbook "$PLAYBOOK" --connection=local --vault-password-file "$VAULT_FILE"
+ansible-playbook "$PLAYBOOK" --connection=local
 
 # Reboot system
 log "Ansible completed successfully. Rebooting in 5 seconds."

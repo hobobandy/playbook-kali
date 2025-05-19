@@ -1,0 +1,52 @@
+- name: Update APT cache
+  apt:
+    update_cache: yes
+
+- name: Install GPSD and its clients/tools
+  apt:
+    name:
+      - gpsd
+      - gpsd-clients
+      - gpsd-tools
+    state: present
+
+- name: Set GPSD_OPTIONS to "-b -n"
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/default/gpsd
+    regexp: '^GPSD_OPTIONS='
+    line: 'GPSD_OPTIONS="-b -n"'
+    backup: yes
+
+- name: Uncomment GPSD udev rule for PL2303 USB GPS (used by BU-353S4 and others)
+  become: true
+  ansible.builtin.lineinfile:
+    path: /lib/udev/rules.d/60-gpsd.rules
+    regexp: '^#\s*(ATTRS\{idVendor\}=="067b",\s*ATTRS\{idProduct\}=="2303",\s*SYMLINK\+="gps%n",\s*TAG\+="systemd",\s*ENV\{SYSTEMD_WANTS\}="gpsdctl@%k.service")$'
+    line: '\1'
+    backrefs: yes
+
+- name: Add new GPSD udev rule for PL2303 USB GPS (used by BU-353N)
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /lib/udev/rules.d/60-gpsd.rules
+    insertafter: '#?\s*ATTRS\{idVendor\}=="067b",\s*ATTRS\{idProduct\}=="2303",\s*SYMLINK\+="gps%n",\s*TAG\+="systemd",\s*ENV\{SYSTEMD_WANTS\}="gpsdctl@%k.service"$'
+    line: 'ATTRS{idVendor}=="067b", ATTRS{idProduct}=="23a3", SYMLINK+="gps%n", TAG+="systemd", ENV{SYSTEMD_WANTS}="gpsdctl@%k.service"'
+
+- name: Reload udev rules
+  become: yes
+  ansible.builtin.command: udevadm control --reload-rules
+
+- name: Trigger udev
+  become: yes
+  ansible.builtin.command: udevadm trigger
+  
+- name: Reload systemd to pick up gpsd service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start gpsd service
+  systemd:
+    name: gpsd.service
+    enabled: yes
+    state: started
