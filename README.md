@@ -36,12 +36,12 @@ Note: Run without a vault using `sudo`, you can then remove the `--vault-passwor
 
 Run all roles:
 
-`ansible-playbook playbook.yml --connection=local --vault-password-file .vault_pass.txt`
+`ansible-playbook playbook.yml --vault-password-file .vault_pass.txt`
 
 Run only specified roles -- multiple `--tags` can be specified:
 
-`ansible-playbook playbook.yml --connection=local --vault-password-file .vault_pass.txt --tags <role>`
+`ansible-playbook playbook.yml --vault-password-file .vault_pass.txt --tags <role>`
 
 Run all but specified roles -- multiple `--skip-tags` can be specified:
 
-`ansible-playbook playbook.yml --connection=local --vault-password-file .vault_pass.txt --skip-tags <role>`
+`ansible-playbook playbook.yml --vault-password-file .vault_pass.txt --skip-tags <role>`
