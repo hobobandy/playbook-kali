@@ -1,0 +1,39 @@
+- block:
+  - name: Clone plugin-kismet-firstchan
+    git:
+      repo: https://github.com/hobobandy/plugin-kismet-firstchan.git
+      dest: /home/kali/plugin-kismet-firstchan
+
+  - name: Build and user install plugin-kismet-firstchan
+    command: make userinstall
+    args:
+      chdir: /home/kali/plugin-kismet-firstchan
+
+  - name: Cleanup git cloned directory
+    shell: rm -rf plugin-kismet-firstchan
+    args:
+      chdir: /home/kali
+  
+  - name: Clone plugin-kismet-poi-manager
+    git:
+      repo: https://github.com/hobobandy/plugin-kismet-poi-manager.git
+      dest: /home/kali/plugin-kismet-poi-manager
+
+  - name: Build and user install plugin-kismet-poi-manager
+    command: make userinstall
+    args:
+      chdir: /home/kali/plugin-kismet-poi-manager
+
+  - name: Cleanup git cloned directory
+    shell: rm -rf plugin-kismet-poi-manager
+    args:
+      chdir: /home/kali
+  
+  become: yes
+  become_user: kali
+
+- name: Restart kismet service
+  become: yes
+  service:
+    name: kismet
+    state: restarted

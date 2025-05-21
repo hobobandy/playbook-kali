@@ -11,6 +11,7 @@
     - { role: dockge,        tags: [dockge] }
     - { role: gpsd,          tags: [gpsd] }
     - { role: kismet,        tags: [kismet] }
+    - { role: kismet_plugins,tags: [kismet_plugins] }
     - { role: angryoxide,    tags: [angryoxide] }
     - { role: aistocot,      tags: [aistocot] }
     - { role: cleanup,       tags: [cleanup] }
