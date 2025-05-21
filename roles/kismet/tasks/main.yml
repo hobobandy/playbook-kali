@@ -12,17 +12,16 @@
   apt:
     update_cache: yes
 
-# If not removed, conflicts can prevent Kismet from polling data sources (for example, rtlamr)
-# - name: Remove obsolete Kismet metapackage when using git version
-#   apt:
-#     name: kismet-capture-common
-#     state: absent
-#     purge: yes
-
 - name: Install Kismet git package for Kali Linux
   apt:
     name: kismet
     state: present
+
+- name: Remove obsolete Kismet metapackage when using git version
+  apt:
+    name: kismet-capture-common
+    state: absent
+    purge: yes
 
 - name: Ensure 'kali' is in the kismet group
   user:
