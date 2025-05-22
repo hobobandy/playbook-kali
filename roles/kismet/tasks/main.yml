@@ -17,11 +17,11 @@
     name: kismet
     state: present
 
-- name: Remove obsolete Kismet metapackage when using git version
-  apt:
-    name: kismet-capture-common
-    state: absent
-    purge: yes
+# - name: Remove obsolete Kismet metapackage when using git version
+#   apt:
+#     name: kismet-capture-common
+#     state: absent
+#     purge: yes
 
 - name: Ensure 'kali' is in the kismet group
   user:
