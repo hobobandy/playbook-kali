@@ -15,13 +15,16 @@
 - name: Install Kismet git package for Kali Linux
   apt:
     name: kismet
-    state: present
+    state: latest
 
-# - name: Remove obsolete Kismet metapackage when using git version
-#   apt:
-#     name: kismet-capture-common
-#     state: absent
-#     purge: yes
+- name: Remove obsolete Kismet packages when using git version
+  apt:
+    name:
+      - python3-kismetcapturebtgeiger
+      - python3-kismetcapturertlamr
+      - python3-bluepy
+    state: absent
+    purge: yes
 
 - name: Ensure 'kali' is in the kismet group
   user:
