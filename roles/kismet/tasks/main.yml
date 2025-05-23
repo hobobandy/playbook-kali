@@ -1,4 +1,4 @@
-- name: Add Kismet APT repository
+- name: Add Kismet APT repository (x86_64/amd64)
   deb822_repository:
     name: kismet
     types: deb
@@ -7,17 +7,29 @@
     components: main
     architectures: amd64
     signed_by: https://www.kismetwireless.net/repos/kismet-release.gpg.key
+  when: ansible_architecture == 'x86_64'
+
+- name: Add Kismet APT repository (aarch64/arm64)
+  deb822_repository:
+    name: kismet
+    types: deb
+    uris: https://www.kismetwireless.net/repos/apt/git/kali
+    suites: kali
+    components: main
+    architectures: arm64
+    signed_by: https://www.kismetwireless.net/repos/kismet-release.gpg.key
+  when: ansible_architecture == 'aarch64'
 
 - name: Update APT cache for Kismet
   apt:
     update_cache: yes
 
-- name: Install Kismet git package for Kali Linux
+- name: Upgrade to Kismet git package for Kali Linux
   apt:
     name: kismet
     state: latest
 
-- name: Remove obsolete Kismet packages when using git version
+- name: Remove obsolete Kismet packages
   apt:
     name:
       - python3-kismetcapturebtgeiger

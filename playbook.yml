@@ -1,8 +1,16 @@
 - name: First boot configuration for Kali Linux
   hosts: localhost
+  gather_facts: yes
   become: yes
   vars_files:
     - secrets.yml
+  pre_tasks:
+    - name: “Validate architecture is supported”
+      fail:
+        msg: >
+          Unsupported architecture: {{ ansible_architecture }}.
+          This playbook only supports x86_64/amd64 and aarch64/arm64.
+      when: ansible_architecture not in [ 'x86_64', 'aarch64' ]
   roles:
     - { role: common,        tags: [common] }
     - { role: ssh_hardening, tags: [ssh] }
