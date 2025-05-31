@@ -17,10 +17,11 @@
     - { role: firewall,      tags: [firewall] }
     - { role: docker,        tags: [docker] }
     - { role: dockge,        tags: [dockge] }
-    - { role: homer,         tags: [homer] }
     - { role: gpsd,          tags: [gpsd] }
     - { role: kismet,        tags: [kismet] }
     - { role: kismet_plugins,tags: [kismet_plugins] }
+    - { role: homer,         tags: [homer] }
+    - { role: filebrowser,   tags: [filebrowser] }
     - { role: angryoxide,    tags: [angryoxide] }
     - { role: aistocot,      tags: [aistocot] }
     - { role: cleanup,       tags: [cleanup] }
