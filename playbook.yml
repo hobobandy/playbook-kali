@@ -17,6 +17,7 @@
     - { role: firewall,      tags: [firewall] }
     - { role: docker,        tags: [docker] }
     - { role: dockge,        tags: [dockge] }
+    - { role: homer,         tags: [homer] }
     - { role: gpsd,          tags: [gpsd] }
     - { role: kismet,        tags: [kismet] }
     - { role: kismet_plugins,tags: [kismet_plugins] }

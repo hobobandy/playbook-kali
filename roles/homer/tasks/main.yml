@@ -1,0 +1,57 @@
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: kali
+    group: kali
+    mode: '0755'
+  loop:
+    - /opt/stacks
+    - /opt/stacks/homer
+    - /opt/stacks/homer/icons
+
+- name: Write docker-compose.yml file
+  copy:
+    dest: /opt/stacks/homer/docker-compose.yml
+    content: |
+      services:
+        homer:
+          image: b4bz/homer
+          container_name: homer
+          volumes:
+            - /opt/stacks/homer:/www/assets # Make sure your local config directory exists
+          ports:
+            - 80:8080
+          user: 1000:1000 # default
+          environment:
+            - INIT_ASSETS=1 # default, requires the config directory to be writable for the container user (see user option)
+          restart: unless-stopped
+    owner: kali
+    group: kali
+    mode: '0644'
+
+- name: Allow web interface through UFW
+  ufw:
+    rule: allow
+    port: 80
+
+- name: Copy dashboard icons
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/icons/{{ item }}"
+    dest: "/opt/stacks/homer/icons/{{ item }}"
+    owner: kali
+    group: kali
+    mode: "0644"
+  loop:
+    - "kismet.svg"
+    - "filebrowser.svg"
+    - "cockpit.svg"
+    - "dockge.svg"
+
+- name: Create config file from template
+  template:
+    src: "{{ role_path }}/files/config.yml.j2"
+    dest: "/opt/stacks/homer/config.yml"
+    owner: kali
+    group: kali
+    mode: '0644'

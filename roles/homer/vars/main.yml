@@ -1,0 +1,1 @@
+default_ipv4_addr: "{{ ansible_default_ipv4.address }}"
