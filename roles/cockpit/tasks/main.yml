@@ -1,0 +1,27 @@
+- name: Update APT cache
+  apt:
+    update_cache: yes
+
+- name: Install package
+  apt:
+    name: cockpit
+    state: latest
+
+- name: Allow web interface through UFW
+  ufw:
+    rule: allow
+    port: 9090
+
+- name: Reload systemd to pick up new service
+  systemd:
+    daemon_reload: yes
+
+- name: Enable service to start at boot
+  systemd:
+    name: cockpit.socket
+    enabled: yes
+
+- name: Start service
+  systemd:
+    name: cockpit.service
+    state: started

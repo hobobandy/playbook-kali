@@ -22,6 +22,7 @@
     - { role: kismet_plugins,tags: [kismet_plugins] }
     - { role: homer,         tags: [homer] }
     - { role: filebrowser,   tags: [filebrowser] }
+    - { role: cockpit,       tags: [cockpit] }
     - { role: angryoxide,    tags: [angryoxide] }
     - { role: aistocot,      tags: [aistocot] }
     - { role: cleanup,       tags: [cleanup] }
