@@ -18,6 +18,7 @@
     - { role: docker,        tags: [docker] }
     - { role: dockge,        tags: [dockge] }
     - { role: gpsd,          tags: [gpsd] }
+    - { role: chrony,        tags: [chrony] }
     - { role: kismet,        tags: [kismet] }
     - { role: kismet_plugins,tags: [kismet_plugins] }
     - { role: homer,         tags: [homer] }
