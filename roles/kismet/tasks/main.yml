@@ -1,3 +1,15 @@
+- name: Remove and purge old Kismet packages
+  apt:
+    name:
+      - kismet
+      - kismet-capture-common
+      - python3-kismetcapturebtgeiger
+      - python3-kismetcapturertlamr
+      - python3-bluepy
+    state: absent
+    autoremove: yes
+    purge: yes
+
 - name: Add Kismet APT repository (x86_64/amd64)
   deb822_repository:
     name: kismet
@@ -24,19 +36,17 @@
   apt:
     update_cache: yes
 
-- name: Upgrade to Kismet git package for Kali Linux
+- name: Install Kismet git package for Kali Linux
   apt:
     name: kismet
     state: latest
 
-- name: Remove obsolete Kismet packages
+- name: Re-install Kali Linux metapackages
   apt:
     name:
-      - python3-kismetcapturebtgeiger
-      - python3-kismetcapturertlamr
-      - python3-bluepy
-    state: absent
-    purge: yes
+      - kali-linux-default
+      - kali-linux-headless
+    state: latest
 
 - name: Ensure 'kali' is in the kismet group
   user:
