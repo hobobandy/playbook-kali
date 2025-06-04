@@ -1,19 +1,19 @@
-- name: Create directories
+- name: Create Dockge stacks directory (if it doesn't exist)
   file:
-    path: "{{ item }}"
+    path: "/opt/stacks"
     state: directory
     owner: kali
     group: kali
     mode: '0755'
-  loop:
-    - /opt/stacks
 
 - name: Git checkout
   ansible.builtin.git:
     repo: 'https://github.com/hobobandy/adsbtocot.git'
     dest: /opt/stacks/adsbtocot
+  become: yes
+  become_user: kali
 
-- name: Allow UDP ports for aiscot container
+- name: Allow UDP ports for containers
   ufw:
     rule: allow
     port: 6969

@@ -25,6 +25,6 @@
     - { role: filebrowser,   tags: [filebrowser] }
     - { role: cockpit,       tags: [cockpit] }
     - { role: angryoxide,    tags: [angryoxide] }
-    - { role: aistocot,      tags: [aistocot] }
-    - { role: adsbtocot,     tags: [adsbtocot] }
+    - { role: aistocot,      tags: [aistocot,cot] }
+    - { role: adsbtocot,     tags: [adsbtocot,cot] }
     - { role: cleanup,       tags: [cleanup] }
