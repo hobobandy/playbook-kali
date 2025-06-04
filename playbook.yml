@@ -26,4 +26,5 @@
     - { role: cockpit,       tags: [cockpit] }
     - { role: angryoxide,    tags: [angryoxide] }
     - { role: aistocot,      tags: [aistocot] }
+    - { role: adsbtocot,     tags: [adsbtocot] }
     - { role: cleanup,       tags: [cleanup] }

@@ -1,0 +1,20 @@
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: kali
+    group: kali
+    mode: '0755'
+  loop:
+    - /opt/stacks
+
+- name: Git checkout
+  ansible.builtin.git:
+    repo: 'https://github.com/hobobandy/adsbtocot.git'
+    dest: /opt/stacks/adsbtocot
+
+- name: Allow UDP ports for aiscot container
+  ufw:
+    rule: allow
+    port: 6969
+    proto: udp
