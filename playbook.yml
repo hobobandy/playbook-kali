@@ -15,6 +15,7 @@
     - { role: common,        tags: [common] }
     - { role: ssh_hardening, tags: [ssh] }
     - { role: firewall,      tags: [firewall] }
+    - { role: network,       tags: [network] }
     - { role: docker,        tags: [docker] }
     - { role: dockge,        tags: [dockge] }
     - { role: gpsd,          tags: [gpsd] }
